@@ -32,5 +32,5 @@ def first_analyzer(sensitivity, specificity):
     json_obj_list = []
     with open('./first_analyzer/first-analyzer.json', 'w') as first_analyzer_file:
         for obj in first_analyzer_array:
-            json_obj_list.append({"id": obj[0], "gt-vulnerable": obj[1], "1a-vulerable": obj[2], "gt-work": obj[3]})
+            json_obj_list.append({"id": obj[0], "vulnerable": obj[1], "1a-vulnerable": obj[2], "work": obj[3]})
         json.dump(json_obj_list, first_analyzer_file, indent=4) 

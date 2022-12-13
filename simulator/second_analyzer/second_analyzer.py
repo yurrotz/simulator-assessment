@@ -27,7 +27,7 @@ def second_analyzer(sensitivity, specificity):
             second_analyzer_array.append([obj[0],obj[1],obj[2],obj[3],"no second analyzer",obj[4]])
     
     json_obj_list = []
-    with open('./second_analyzer/second_analyzer.json', 'w') as fixer_file:
+    with open('./second_analyzer/second-analyzer.json', 'w') as fixer_file:
         for obj in second_analyzer_array:
-            json_obj_list.append({"id": obj[0], "vulnerable": obj[1], "1a-vulerable": obj[2], "fixer": obj[3], "2a-vulnerable": obj[4], "work": obj[5]})
+            json_obj_list.append({"id": obj[0], "vulnerable": obj[1], "1a-vulnerable": obj[2], "fixer": obj[3], "2a-vulnerable": obj[4], "work": obj[5]})
         json.dump(json_obj_list, fixer_file, indent=4) 

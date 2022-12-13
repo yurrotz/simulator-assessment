@@ -1,3 +1,4 @@
 .DS_Store
 **/DS_Store
-ground-truth-generator/ground-truth.json
+ground_truth_generator/ground-truth.json
+simulator/first_analyzer/first-analyzer.json

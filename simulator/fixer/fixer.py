@@ -23,12 +23,11 @@ def fixer(fix_rate, break_rate):
                 fixer_array.append([obj[0],obj[1],obj[2],1,0])   
         else:
             fixer_array.append([obj[0],obj[1],obj[2],"no fixer",obj[3]])          
-        
-    
+         
     json_obj_list = []
     with open('./fixer/fixer.json', 'w') as fixer_file:
         for obj in fixer_array:
-            json_obj_list.append({"id": obj[0], "vulnerable": obj[1], "1a-vulerable": obj[2], "fixer": obj[3],"work": obj[4]})
+            json_obj_list.append({"id": obj[0], "vulnerable": obj[1], "1a-vulerable": obj[2], "fixer": obj[3], "work": obj[4]})
         json.dump(json_obj_list, fixer_file, indent=4) 
         
     

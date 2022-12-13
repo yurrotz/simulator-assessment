@@ -11,22 +11,22 @@
     },
     {
         "id": 2,
-        "vulnerable": 1,
+        "vulnerable": 0,
         "work": 1
     },
     {
         "id": 3,
-        "vulnerable": 1,
+        "vulnerable": 0,
         "work": 1
     },
     {
         "id": 4,
-        "vulnerable": 1,
+        "vulnerable": 0,
         "work": 1
     },
     {
         "id": 5,
-        "vulnerable": 1,
+        "vulnerable": 0,
         "work": 1
     },
     {
@@ -291,6 +291,161 @@
     },
     {
         "id": 58,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 59,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 60,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 61,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 62,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 63,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 64,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 65,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 66,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 67,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 68,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 69,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 70,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 71,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 72,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 73,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 74,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 75,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 76,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 77,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 78,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 79,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 80,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 81,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 82,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 83,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 84,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 85,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 86,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 87,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 88,
+        "vulnerable": 0,
+        "work": 1
+    },
+    {
+        "id": 89,
         "vulnerable": 0,
         "work": 1
     }

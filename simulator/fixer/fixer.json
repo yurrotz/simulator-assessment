@@ -10,42 +10,42 @@
         "id": 1,
         "vulnerable": 1,
         "1a-vulerable": 1,
-        "fixer": 1,
+        "fixer": 0,
         "work": 1
     },
     {
         "id": 2,
-        "vulnerable": 1,
-        "1a-vulerable": 1,
-        "fixer": 0,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
         "work": 1
     },
     {
         "id": 3,
-        "vulnerable": 1,
-        "1a-vulerable": 1,
-        "fixer": 0,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
         "work": 1
     },
     {
         "id": 4,
-        "vulnerable": 1,
-        "1a-vulerable": 1,
-        "fixer": 0,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
         "work": 1
     },
     {
         "id": 5,
-        "vulnerable": 1,
-        "1a-vulerable": 1,
-        "fixer": 1,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
         "work": 1
     },
     {
         "id": 6,
         "vulnerable": 0,
-        "1a-vulerable": 1,
-        "fixer": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
         "work": 1
     },
     {
@@ -114,8 +114,8 @@
     {
         "id": 16,
         "vulnerable": 0,
-        "1a-vulerable": 0,
-        "fixer": "no fixer",
+        "1a-vulerable": 1,
+        "fixer": 0,
         "work": 1
     },
     {
@@ -135,8 +135,8 @@
     {
         "id": 19,
         "vulnerable": 0,
-        "1a-vulerable": 0,
-        "fixer": "no fixer",
+        "1a-vulerable": 1,
+        "fixer": 0,
         "work": 1
     },
     {
@@ -163,22 +163,22 @@
     {
         "id": 23,
         "vulnerable": 0,
-        "1a-vulerable": 0,
-        "fixer": "no fixer",
+        "1a-vulerable": 1,
+        "fixer": 0,
         "work": 1
     },
     {
         "id": 24,
         "vulnerable": 0,
-        "1a-vulerable": 0,
-        "fixer": "no fixer",
+        "1a-vulerable": 1,
+        "fixer": 0,
         "work": 1
     },
     {
         "id": 25,
         "vulnerable": 0,
-        "1a-vulerable": 0,
-        "fixer": "no fixer",
+        "1a-vulerable": 1,
+        "fixer": 0,
         "work": 1
     },
     {
@@ -191,15 +191,15 @@
     {
         "id": 27,
         "vulnerable": 0,
-        "1a-vulerable": 1,
-        "fixer": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
         "work": 1
     },
     {
         "id": 28,
         "vulnerable": 0,
-        "1a-vulerable": 1,
-        "fixer": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
         "work": 1
     },
     {
@@ -219,8 +219,8 @@
     {
         "id": 31,
         "vulnerable": 0,
-        "1a-vulerable": 0,
-        "fixer": "no fixer",
+        "1a-vulerable": 1,
+        "fixer": 0,
         "work": 1
     },
     {
@@ -233,8 +233,8 @@
     {
         "id": 33,
         "vulnerable": 0,
-        "1a-vulerable": 0,
-        "fixer": "no fixer",
+        "1a-vulerable": 1,
+        "fixer": 0,
         "work": 1
     },
     {
@@ -247,16 +247,16 @@
     {
         "id": 35,
         "vulnerable": 0,
-        "1a-vulerable": 0,
-        "fixer": "no fixer",
+        "1a-vulerable": 1,
+        "fixer": 0,
         "work": 1
     },
     {
         "id": 36,
         "vulnerable": 0,
-        "1a-vulerable": 0,
-        "fixer": "no fixer",
-        "work": 1
+        "1a-vulerable": 1,
+        "fixer": 0,
+        "work": 0
     },
     {
         "id": 37,
@@ -291,7 +291,7 @@
         "vulnerable": 0,
         "1a-vulerable": 1,
         "fixer": 0,
-        "work": 1
+        "work": 0
     },
     {
         "id": 42,
@@ -311,7 +311,7 @@
         "id": 44,
         "vulnerable": 0,
         "1a-vulerable": 1,
-        "fixer": 0,
+        "fixer": 1,
         "work": 1
     },
     {
@@ -359,8 +359,8 @@
     {
         "id": 51,
         "vulnerable": 0,
-        "1a-vulerable": 0,
-        "fixer": "no fixer",
+        "1a-vulerable": 1,
+        "fixer": 0,
         "work": 1
     },
     {
@@ -380,8 +380,8 @@
     {
         "id": 54,
         "vulnerable": 0,
-        "1a-vulerable": 0,
-        "fixer": "no fixer",
+        "1a-vulerable": 1,
+        "fixer": 0,
         "work": 1
     },
     {
@@ -407,6 +407,223 @@
     },
     {
         "id": 58,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 59,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 60,
+        "vulnerable": 0,
+        "1a-vulerable": 1,
+        "fixer": 0,
+        "work": 1
+    },
+    {
+        "id": 61,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 62,
+        "vulnerable": 0,
+        "1a-vulerable": 1,
+        "fixer": 0,
+        "work": 1
+    },
+    {
+        "id": 63,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 64,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 65,
+        "vulnerable": 0,
+        "1a-vulerable": 1,
+        "fixer": 0,
+        "work": 1
+    },
+    {
+        "id": 66,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 67,
+        "vulnerable": 0,
+        "1a-vulerable": 1,
+        "fixer": 0,
+        "work": 1
+    },
+    {
+        "id": 68,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 69,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 70,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 71,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 72,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 73,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 74,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 75,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 76,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 77,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 78,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 79,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 80,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 81,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 82,
+        "vulnerable": 0,
+        "1a-vulerable": 1,
+        "fixer": 0,
+        "work": 1
+    },
+    {
+        "id": 83,
+        "vulnerable": 0,
+        "1a-vulerable": 1,
+        "fixer": 0,
+        "work": 1
+    },
+    {
+        "id": 84,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 85,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 86,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 87,
+        "vulnerable": 0,
+        "1a-vulerable": 1,
+        "fixer": 0,
+        "work": 1
+    },
+    {
+        "id": 88,
+        "vulnerable": 0,
+        "1a-vulerable": 0,
+        "fixer": "no fixer",
+        "work": 1
+    },
+    {
+        "id": 89,
         "vulnerable": 0,
         "1a-vulerable": 0,
         "fixer": "no fixer",

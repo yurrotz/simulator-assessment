@@ -4,7 +4,7 @@ import sys
 
 # 0 NOT vulnerable/work | 1 vulnerable/work
 
-vuln_rate, work_rate = sys.argv[1], sys.argv[2]
+vuln_rate, work_rate = float(sys.argv[1]), float(sys.argv[2])
 
 json_obj_list = []
 
@@ -16,10 +16,10 @@ with open('ground-truth.json', 'w') as ground_truth_file:
         random_vuln = random.random()
         random_work = random.random()
 
-        if random_vuln > float(vuln_rate):
+        if random_vuln > vuln_rate:
             vuln = 0
 
-        if random_work > float(work_rate):
+        if random_work > work_rate:
             work = 0
 
         json_obj_list.append({"id": i, "vulnerable": vuln, "work": work})

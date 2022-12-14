@@ -12,24 +12,28 @@ with open('../ground_truth_generator/ground-truth.json') as ground_truth_file:
         ground_truth_array.append([obj["id"],obj["vuln"],obj["work"]])
 ground_truth_file.close()
 
-first_analyzer_array = [] # id - vuln - work - class - fix - vuln_old - work_old - class_old
+first_analyzer_array = []
 
 #1st Analyzer
 def first_analyzer(sensitivity, specificity):
     for obj in ground_truth_array:
+        
         sens = random.random()
         spec = random.random()
-        if obj[1] == 1: # vulnerable
+        
+        id, vuln, work = obj[0], obj[1], obj[2]
+        
+        if vuln == 1: # vulnerable
             if sens <= sensitivity:
-                first_analyzer_array.append([obj[0],obj[1],obj[2],1,"unknown","unknown","unknown","unknown"]) #true positive
+                first_analyzer_array.append([id, vuln, work, 1, "unknown", "unknown", "unknown", "unknown"]) #TP
             else:
-                first_analyzer_array.append([obj[0],obj[1],obj[2],0,"unknown","unknown","unknown","unknown"]) #false negative
-        elif obj[1] == 0: # NOT vulnerable
+                first_analyzer_array.append([id, vuln, work, 0, "unknown", "unknown", "unknown", "unknown"]) #FN
+        elif vuln == 0: # NOT vulnerable
             if spec <= specificity:
-                first_analyzer_array.append([obj[0],obj[1],obj[2],0,"unknown","unknown","unknown","unknown"]) #true negative
+                first_analyzer_array.append([id, vuln, work, 0, "unknown", "unknown", "unknown", "unknown"]) #TN
             else:
-                first_analyzer_array.append([obj[0],obj[1],obj[2],1,"unknown","unknown","unknown","unknown"]) #false positive
-    #print(first_analyzer_array)         
+                first_analyzer_array.append([id, vuln, work, 1, "unknown", "unknown", "unknown", "unknown"]) #FP
+                         
     json_obj_list = []
     with open('./first_analyzer/first-analyzer.json', 'w') as first_analyzer_file:
         for obj in first_analyzer_array:

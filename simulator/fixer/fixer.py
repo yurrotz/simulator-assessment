@@ -13,21 +13,23 @@ def fixer(fix_rate, break_rate):
         random_fix = random.random() #fix
         random_break = random.random() #break
         
-        if obj[3] == 1: #class = 1
-            if random_fix <= fix_rate and random_break <= break_rate: #not vulnerable and broken
-                fixer_array.append([obj[0],0,0,"unknown","yes",obj[1],obj[2],obj[3]])
+        id, vuln, work, class_ = obj[0], obj[1], obj[2], obj[3]
+        
+        if class_ == 1:
+            if random_fix <= fix_rate and random_break <= break_rate: #fixed & broken
+                fixer_array.append([id, 0, 0, "unknown", "yes", vuln, work, class_])
                 
-            elif random_fix <= fix_rate and random_break > break_rate: #not vulnerable and work
-                fixer_array.append([obj[0],0,obj[2],"unknown","yes",obj[1],obj[2],obj[3]])
+            elif random_fix <= fix_rate and random_break > break_rate: #fixed & NOT broken
+                fixer_array.append([id, 0, work, "unknown", "yes", vuln, work, class_])
                 
-            elif random_fix > fix_rate and random_break > break_rate: #vulnerable and work
-                fixer_array.append([obj[0],obj[1],obj[2],"unknown","yes",obj[1],obj[2],obj[3]])
+            elif random_fix > fix_rate and random_break > break_rate: #NOT fixed & NOT broken
+                fixer_array.append([id, vuln, work, "unknown", "yes", vuln, work, class_])
                 
-            elif random_fix > fix_rate and random_break <= break_rate: #vulnerable and broken
-                fixer_array.append([obj[0],obj[1],0,"unknown","yes",obj[1],obj[2],obj[3]]) 
+            elif random_fix > fix_rate and random_break <= break_rate: #NOT fixed & broken
+                fixer_array.append([id, vuln, 0, "unknown", "yes", vuln, work, class_]) 
                 
-        elif obj[3] == 0: #class = 0
-            fixer_array.append([obj[0],obj[1],obj[2],obj[3],"no","unknown","unknown","unknown"])          
+        elif class_ == 0:
+            fixer_array.append([id, vuln, work, class_, "no", "unknown", "unknown", "unknown"])          
          
     json_obj_list = []
     with open('./fixer/fixer.json', 'w') as fixer_file:

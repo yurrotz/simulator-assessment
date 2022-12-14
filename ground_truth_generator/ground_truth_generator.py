@@ -4,14 +4,13 @@ import sys
 
 # 0 NOT vulnerable/work | 1 vulnerable/work
 
-vuln_rate, work_rate = float(sys.argv[1]), float(sys.argv[2])
+num_obj, vuln_rate, work_rate = int(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3])
 
 json_obj_list = []
 
 with open('ground-truth.json', 'w') as ground_truth_file:
-    r = random.randint(50,100) 
     
-    for i in range(r):
+    for i in range(num_obj):
         random_vuln = random.random()
         random_work = random.random()
 

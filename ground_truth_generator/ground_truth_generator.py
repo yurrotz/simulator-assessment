@@ -25,5 +25,5 @@ with open('ground-truth.json', 'w') as ground_truth_file:
         else:
             work = 1
 
-        json_obj_list.append({"id": i, "vulnerable": vuln, "work": work})
+        json_obj_list.append({"id": i, "vuln": vuln, "work": work})
     json.dump(json_obj_list, ground_truth_file, indent=4)

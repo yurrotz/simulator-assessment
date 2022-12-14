@@ -12,35 +12,40 @@ fixer.fixer(fix_rate, break_rate)
 second_analyzer.second_analyzer(sensitivity, specificity)
 
 # id - GT - Vulnerable outcome - work
-
-outcome_array = []
-
-for obj in second_analyzer.second_analyzer_array:
-    if obj[2] == 0: #the object did not go through the fixer and the second analyzer
-        outcome_array.append([obj[0], obj[1], obj[2], obj[5]])
-    
-    elif obj[2] == 1:
-        if obj[1] == 1:
-            outcome_array.append([obj[0], obj[3], obj[4], obj[5]])
-        elif obj[1] == 0:
-            outcome_array.append([obj[0], obj[1], obj[4], obj[5]])
-            
-json_obj_list = []
-with open('simulator-assessment.json', 'w') as simulator_assessment_file:
-    for obj in outcome_array:
-        json_obj_list.append({"id": obj[0], "gt*": obj[1], "vulnerable": obj[2], "work": obj[3]})
-    json.dump(json_obj_list, simulator_assessment_file, indent=4) 
     
 tp, fp, tn, fn = 0, 0, 0, 0
 
-for obj in outcome_array:
-    if obj[1] == 1 and obj[2] == 1: #true positive
-        tp = tp + 1
-    elif obj[1] == 0 and obj[2] == 1: #false positive
-        fp = fp + 1
-    elif obj[1] == 0 and obj[2] == 0: #true negative
-        tn = tn + 1
-    elif obj[1] == 1 and obj[2] == 0: #false negative
-        fn = fn + 1
+for obj in second_analyzer.second_analyzer_array:
+    if obj[4] == "no": # I can obtain only TN or FN
+        if obj[1] == 0 and obj[3] == 0:
+            tn = tn + 1
+        elif obj[1] == 1 and obj[3] == 0:
+            fn = fn + 1
+            
+    elif obj[4] == "yes":
+        if obj[1] == 0 and obj[3] == 0 and obj[5] == 1 and obj[7] == 1:
+            tn = tn + 1
+        
+        elif obj[1] == 0 and obj[3] == 1 and obj[5] == 1 and obj[7] == 1:
+            fp = fp + 1
+        
+        elif obj[1] == 1 and obj[3] == 0 and obj[5] == 1 and obj[7] == 1:
+            fn = fn + 1  
+            
+        elif obj[1] == 1 and obj[3] == 1 and obj[5] == 1 and obj[7] == 1:
+            tp = tp + 1 
+            
+        elif obj[1] == 0 and obj[3] == 0 and obj[5] == 0 and obj[7] == 1:
+            fp = fp + 1 
+            
+        elif obj[1] == 0 and obj[3] == 1 and obj[5] == 0 and obj[7] == 1:
+            fp = fp + 1 
+            
+        elif obj[1] == 1 and obj[3] == 0 and obj[5] == 0 and obj[7] == 1:
+            fp = fp + 1 
+            
+        elif obj[1] == 1 and obj[3] == 1 and obj[5] == 0 and obj[7] == 1:
+            fp = fp + 1
+        
                 
 print('TP: ' + str(tp) + ' ' , 'FP: ' + str(fp) + ' ' + 'TN: ' + str(tn) + ' ' + 'FN: ' + str(fn) + ' ')

@@ -2,9 +2,40 @@ import first_analyzer.first_analyzer as first_analyzer
 import fixer.fixer as fixer
 import second_analyzer.second_analyzer as second_analyzer
 import sys
+import getopt
 
-sensitivity, specificity = float(sys.argv[1]), float(sys.argv[2])
-fix_rate, break_rate = float(sys.argv[3]), float(sys.argv[4])
+arg_sensitivity= ""
+arg_specificity = ""
+arg_fix_rate = ""
+arg_break_rate = ""
+arg_help = "{0} -r <sensitivity> -s <specificity> -f <fix_rate> -b <break_rate>".format(sys.argv[0])
+
+try:
+    opts, args = getopt.getopt(sys.argv[1:], "hr:s:f:b:", ["help", "sensitivity=", 
+    "specificity=", "fix_rate=", "break_rate="])
+except:
+    print(arg_help)
+    sys.exit(2)
+
+for opt, arg in opts:
+    if opt in ("-h", "--help"):
+        print(arg_help)  # print the help message
+        sys.exit(2)
+    elif opt in ("-r", "--sensitivity"):
+        arg_sensitivity = arg
+    elif opt in ("-s", "--specificity"):
+        arg_specificity = arg
+    elif opt in ("-f", "--fix_rate"):
+        arg_fix_rate = arg
+    elif opt in ("-b", "--break_rate"):
+        arg_break_rate = arg
+
+sensitivity = float(arg_sensitivity)
+specificity = float(arg_specificity)
+fix_rate = float(arg_fix_rate)
+break_rate = float(arg_break_rate)
+
+json_obj_list = []
 
 first_analyzer.first_analyzer(sensitivity, specificity)
 fixer.fixer(fix_rate, break_rate)

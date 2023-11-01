@@ -10,6 +10,11 @@ import getopt
 arg_num_obj= ""
 arg_vuln_rate = ""
 arg_work_rate = ""
+
+# The Ground Truth generator takes as input:
+# <num_obj> total number of objects
+# <vuln_rate> rate of vulnerable objects -> how many objects are vulnerable
+# <vuln_rate> rate of working objects -> how many objects work
 arg_help = "{0} -n <num_obj> -v <vuln_rate> -w <work_rate>".format(sys.argv[0])
 
 try:
@@ -39,18 +44,18 @@ work_rate = float(arg_work_rate)
 with open('ground-truth.json', 'w') as ground_truth_file:
     
     for i in range(num_obj):
-        random_vuln = random.random()
-        random_work = random.random()
+        random_vuln = random.random() #generate random number for the vuln rate
+        random_work = random.random() #generate random number for the work rate
 
-        if random_vuln > vuln_rate:
+        if random_vuln > vuln_rate: #if random_vuln is bigger than vuln_rate then the object is NOT vulnerable
             vuln = 0
-        else:
-            vuln = 1
+        else: #the object is vulnerable
+            vuln = 1 
 
-        if random_work > work_rate:
+        if random_work > work_rate: #if random_work is bigger than work_rate then the object is NOT working (e.g. a bug is present)
             work = 0
-        else:
+        else: #the object is working
             work = 1
-
+        #create the json list containing the list of objects and their vuln and work ground truth
         json_obj_list.append({"id": i, "vuln": vuln, "work": work})
-    json.dump(json_obj_list, ground_truth_file, indent=4)
+    json.dump(json_obj_list, ground_truth_file, indent=4) #copy the json list in json file

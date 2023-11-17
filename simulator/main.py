@@ -1,4 +1,5 @@
-from simulator.automated_simulation_mc_interval import mc_interval
+from automated_simulation_mc import mc
+from automated_simulation_mc_interval import mc_interval
 
 if __name__ == '__main__':
     sim_type = input('Insert the simulation type: ')
@@ -6,6 +7,6 @@ if __name__ == '__main__':
     if sim_type == 'deterministic':
         pass
     elif sim_type == 'mc':
-        pass
+        mc()
     elif sim_type == 'mc_interval':
         mc_interval()

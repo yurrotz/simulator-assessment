@@ -1,7 +1,7 @@
 .DS_Store
 **/DS_Store
 ground_truth_generator/ground_truth.json
-simulator/first_analyzer/first_analyzer.json
-simulator/fixer/fixer.json
-simulator/second_analyzer/second_analyzer.json
+simulator/json_files/first_analyzer.json
+simulator/json_files/fixer.json
+simulator/json_files/second_analyzer.json
 simulator/simulator-assessment.json

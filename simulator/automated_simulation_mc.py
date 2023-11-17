@@ -4,19 +4,17 @@ import pandas as pd
 import first_analyzer.first_analyzer as first_analyzer
 import fixer.fixer as fixer
 import second_analyzer.second_analyzer as second_analyzer
+
 import csv
 from scipy.stats import *
 import pickle as pk
 import seaborn as sns
 
-from EDA import normalization
+from EDA.functions import normalization
 
 #fixrate_values = [round(x * 0.1, 1) for x in range(0, 11)]
 fixrate_values = [1]
 break_rate = 0
-
-header = False
-write_mode = 'w'
 
 
 def get_specificity_dist_par():
@@ -44,38 +42,17 @@ def plot_data():
     sns.histplot(pd_values['FNout'], kde=True, element='step', ax=ax[1, 1], label='FNout')
     #sns.move_legend(ax[1, 1], 'upper left')
 
-    """
-    plt.hist(pd_values['TPout'], label='TPout')
-    plt.hist(pd_values['TPout'])
-    """
-
-    """
-    print(pd_values['FPout'])
-    plt.hist(pd_values['FPout'], label='TPout')
-    plt.hist(pd_values['FPout'])
-    """
-
-    """
-    print(pd_values['TNout'])
-    plt.hist(pd_values['TNout'], label='TPout')
-    plt.hist(pd_values['TNout'])
-
-    print(pd_values['FNout'])
-    plt.hist(pd_values['FNout'], label='TPout')
-    plt.hist(pd_values['FNout'])
-    """
-
     plt.show()
 
 
-
-if __name__ == '__main__':
-
+def mc():
     spec_dist_par = get_specificity_dist_par()
     specificity_values = normalization(levy_l.rvs(loc=spec_dist_par['levy_l']['loc'],
-                                                  scale=spec_dist_par['levy_l']['scale'], size=100))
+                                                  scale=spec_dist_par['levy_l']['scale'], size=10))
 
     rounds = 1
+    header = False
+    write_mode = 'w'
 
     for r in range(rounds):
         print("Round: " + str(r))
@@ -111,7 +88,7 @@ if __name__ == '__main__':
                 else:
                     sensitivity_out = "err"
 
-                with open('results_automated_mc.csv', write_mode, encoding='UTF8', newline='') as f:
+                with open('results/mc_simulation/results_automated_mc.csv', write_mode, encoding='UTF8', newline='') as f:
                     writer = csv.writer(f)
 
                     if not header:

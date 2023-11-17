@@ -56,7 +56,7 @@ def fixer(fix_rate, break_rate):
             fixer_array.append([id, vuln, work, class_, "no", "unknown", "unknown", "unknown"])          
          
     json_obj_list = []
-    with open('./fixer/fixer.json', 'w') as fixer_file:
+    with open('fixer.json', 'w') as fixer_file:
         for obj in fixer_array:
             
             if obj[1] == 1: #the object is not fixed, therefore is positive 

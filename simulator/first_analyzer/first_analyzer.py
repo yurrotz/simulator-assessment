@@ -6,7 +6,7 @@ from collections import OrderedDict
 
 #1st Analyzer
 def first_analyzer(sensitivity, specificity):
-    #ground_truth_array is populated with the list in ground-truth.json. It contains the list of the objects with the grounf truth
+    #ground_truth_array is populated with the list in ground_truth.json. It contains the list of the objects with the grounf truth
     #first_analyzer_array is populated with the list of objects including their ground truth, and the classification made by the first analyzer
     global ground_truth_array, first_analyzer_array
     ground_truth_array, first_analyzer_array = [], []
@@ -19,7 +19,7 @@ def first_analyzer(sensitivity, specificity):
     tot, p_init, n_init, pw_init, nw_init = 0, 0, 0, 0, 0
 
     #open the ground_truth_file and read the objects to fill the ground_truth_array
-    with open('../ground_truth_generator/ground-truth.json') as ground_truth_file:    
+    with open('../ground_truth_generator/ground_truth.json') as ground_truth_file:
         data = json.load(ground_truth_file)
         for obj in data:
             tot = tot + 1 #counting the total number of objects one by one
@@ -65,7 +65,7 @@ def first_analyzer(sensitivity, specificity):
     
     #create a json list containing the objects with their ground truth and the classification made by the first analyzer                     
     json_obj_list = []
-    with open('./first_analyzer/first-analyzer.json', 'w') as first_analyzer_file:
+    with open('first_analyzer.json', 'w') as first_analyzer_file:
         for obj in first_analyzer_array:
             #id -> object identifier
             #vuln -> ground truth of the object vulnerable/not vulnerable

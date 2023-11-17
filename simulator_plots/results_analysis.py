@@ -3,7 +3,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 #%%
-simulator_results_data = pd.read_csv('../simulator/results-automated.csv')
+simulator_results_data = pd.read_csv('../simulator/results_automated.csv')
 
 y_sens_before = []
 x_spec_before  = []

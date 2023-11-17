@@ -7,6 +7,7 @@ import getopt
 
 #num_obj, vuln_rate, work_rate = int(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3])
 
+"""
 arg_num_obj= ""
 arg_vuln_rate = ""
 arg_work_rate = ""
@@ -34,28 +35,30 @@ for opt, arg in opts:
         arg_vuln_rate = arg
     elif opt in ("-w", "--work_rate"):
         arg_work_rate = arg
+"""
 
-json_obj_list = []
+if __name__ == '__main__':
+    json_obj_list = []
 
-num_obj = int(arg_num_obj)
-vuln_rate = float(arg_vuln_rate)
-work_rate = float(arg_work_rate)
+    num_obj = 10000
+    vuln_rate = 0.3
+    work_rate = 0.7
 
-with open('ground-truth.json', 'w') as ground_truth_file:
-    
-    for i in range(num_obj):
-        random_vuln = random.random() #generate random number for the vuln rate
-        random_work = random.random() #generate random number for the work rate
+    with open('ground_truth.json', 'w') as ground_truth_file:
 
-        if random_vuln > vuln_rate: #if random_vuln is bigger than vuln_rate then the object is NOT vulnerable
-            vuln = 0
-        else: #the object is vulnerable
-            vuln = 1 
+        for i in range(num_obj):
+            random_vuln = random.random() #generate random number for the vuln rate
+            random_work = random.random() #generate random number for the work rate
 
-        if random_work > work_rate: #if random_work is bigger than work_rate then the object is NOT working (e.g. a bug is present)
-            work = 0
-        else: #the object is working
-            work = 1
-        #create the json list containing the list of objects and their vuln and work ground truth
-        json_obj_list.append({"id": i, "vuln": vuln, "work": work})
-    json.dump(json_obj_list, ground_truth_file, indent=4) #copy the json list in json file
+            if random_vuln > vuln_rate: #if random_vuln is bigger than vuln_rate then the object is NOT vulnerable
+                vuln = 0
+            else: #the object is vulnerable
+                vuln = 1
+
+            if random_work > work_rate: #if random_work is bigger than work_rate then the object is NOT working (e.g. a bug is present)
+                work = 0
+            else: #the object is working
+                work = 1
+            #create the json list containing the list of objects and their vuln and work ground truth
+            json_obj_list.append({"id": i, "vuln": vuln, "work": work})
+        json.dump(json_obj_list, ground_truth_file, indent=4) #copy the json list in json file

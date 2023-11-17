@@ -46,7 +46,7 @@ def second_analyzer(sensitivity, specificity):
     
     #create a json list containing the objects with their ground truth and the classification made by the second analyzer  
     json_obj_list = []
-    with open('./second_analyzer/second-analyzer.json', 'w') as fixer_file:
+    with open('second_analyzer.json', 'w') as fixer_file:
         for obj in second_analyzer_array:
             if obj[1] == 1:
                 p_out = p_out + 1

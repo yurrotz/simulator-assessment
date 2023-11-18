@@ -12,10 +12,8 @@ import seaborn as sns
 
 from EDA.functions import normalization
 
-#fixrate_values = [round(x * 0.1, 1) for x in range(0, 11)]
 fixrate_values = [1]
 break_rate = 0
-
 
 def get_specificity_dist_par():
     with open('../EDA/binary_files/dist_par/spec_dist_par.pk', 'rb') as f:
@@ -24,7 +22,7 @@ def get_specificity_dist_par():
     return spec_dist_par
 
 def plot_data():
-    pd_values = pd.read_csv('results_automated_mc.csv')
+    pd_values = pd.read_csv('results/mc_simulation/results_automated_mc.csv')
 
     print(pd_values)
 

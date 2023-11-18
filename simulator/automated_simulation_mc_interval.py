@@ -26,10 +26,8 @@ def get_upper_lower_bound(dist_type):
     return p_boxes
 
 def plot_data():
-    pd_values_lower = pd.read_csv(
-        '../../../../Desktop/simulator/results/mc_interval_results/results_automated_mc_interval_lower.csv')
-    pd_values_upper = pd.read_csv(
-        '../../../../Desktop/simulator/results/mc_interval_results/results_automated_mc_interval_upper.csv')
+    pd_values_lower = pd.read_csv('results/mc_int_simulation/results_automated_mc_interval_lower.csv')
+    pd_values_upper = pd.read_csv('results/mc_int_simulation/results_automated_mc_interval_upper.csv')
 
     fig, ax = plt.subplots(2, 2)
 
@@ -155,10 +153,8 @@ def mc_interval():
 
     plot_data()
 
-    lower = pd.read_csv('/Users/manu/Documents/GitHub/simulator-assessment/simulator/results/mc_int_simulation/'
-                      'results_automated_mc_interval_lower.csv')
-    upper = pd.read_csv('/Users/manu/Documents/GitHub/simulator-assessment/simulator/results/mc_int_simulation/'
-                      'results_automated_mc_interval_upper.csv')
+    lower = pd.read_csv('results/mc_int_simulation/results_automated_mc_interval_lower.csv')
+    upper = pd.read_csv('results/mc_int_simulation/results_automated_mc_interval_upper.csv')
 
     resultTN = lower['TNout'] >= upper['TNout']
     resultFP = lower['FPout'] >= upper['FPout']

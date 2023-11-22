@@ -40,9 +40,10 @@ for opt, arg in opts:
 if __name__ == '__main__':
     json_obj_list = []
 
+    vuln_rate = float(input('Insert the vulnerable rate: '))
+    work_rate = float(input('Insert the work rate: '))
+
     num_obj = 10000
-    vuln_rate = 0.3
-    work_rate = 0.7
 
     with open('ground_truth.json', 'w') as ground_truth_file:
 

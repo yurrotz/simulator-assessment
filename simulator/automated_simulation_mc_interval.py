@@ -3,7 +3,6 @@ import pickle as pk
 import pandas as pd
 import numpy as np
 import csv
-from numpy.random import uniform
 
 from EDA.functions import normalization
 
@@ -30,6 +29,8 @@ def plot_data():
     pd_values_upper = pd.read_csv('results/mc_int_simulation/results_automated_mc_interval_upper.csv')
 
     fig, ax = plt.subplots(2, 2)
+
+    fig.suptitle('Automated Simulation MC Interval')
 
     """True Negatives"""
     tn_lower = stats.ecdf(pd_values_lower['TNout'])
@@ -67,7 +68,7 @@ def plot_data():
 
     ax[1, 1].legend()
 
-    # Show the plot
+    plt.savefig('figures/tp_tn_fp_fn_mc_interval.png')
     plt.show()
 
 def simulation(specificity_values_bound, bound):
@@ -136,12 +137,11 @@ def mc_interval():
     p_boxes = get_upper_lower_bound('levy_l')
 
     np.random.seed(42)
-    x = uniform(0, 1, size=3)
 
-    specificity_values_lower_bound = normalization(stats.levy_l.rvs(loc=p_boxes['lower_loc'],
-                                                              scale=p_boxes['lower_scale'], size=10))
-    specificity_values_upper_bound = normalization(stats.levy_l.rvs(loc=p_boxes['upper_loc'],
-                                                              scale=p_boxes['upper_scale'], size=10))
+    specificity_values_upper_bound = normalization(stats.levy_l.rvs(loc=p_boxes['lower_loc'],
+                                                              scale=p_boxes['lower_scale'], size=100))
+    specificity_values_lower_bound = normalization(stats.levy_l.rvs(loc=p_boxes['upper_loc'],
+                                                              scale=p_boxes['upper_scale'], size=100))
 
     rounds = 1
 
@@ -157,9 +157,9 @@ def mc_interval():
     upper = pd.read_csv('results/mc_int_simulation/results_automated_mc_interval_upper.csv')
 
     resultTN = lower['TNout'] >= upper['TNout']
-    resultFP = lower['FPout'] >= upper['FPout']
+    resultFP = lower['FPout'] <= upper['FPout']
 
-    resultTP = lower['TPout'] >= upper['TPout']
+    resultTP = lower['TPout'] <= upper['TPout']
     resultFN = lower['FNout'] >= upper['FNout']
 
     print("TN: ", np.count_nonzero(np.array(resultTN) == True))
@@ -167,5 +167,3 @@ def mc_interval():
 
     print("TP: ", np.count_nonzero(np.array(resultTP) == True))
     print("FN: ", np.count_nonzero(np.array(resultFN) == True))
-
-# mc_interval()

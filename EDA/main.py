@@ -12,14 +12,15 @@ from functions import (eliminate_outliers, choose_best_dist, sample_from_distrib
 
 def choose_lower_upper_bound(dist_type, conf_int):
     combinations = list(product(conf_int['conf_int_loc'], conf_int['conf_int_scale']))
-    print(combinations)
+    print("Combinations: ", combinations)
 
     x = uniform(0, 1, size=10)
 
     if dist_type == 'levy_l':
-        values_comb = {i: np.array(levy_l.cdf(loc=comb[0], scale=comb[1],
-                                              x=x))
+        values_comb = {i: np.array(levy_l.cdf(loc=comb[0], scale=comb[1], x=x))
                        for i, comb in enumerate(combinations)}
+
+        print("Values comb: ", values_comb)
 
         lower_bound = {}
         upper_bound = {}
@@ -29,17 +30,22 @@ def choose_lower_upper_bound(dist_type, conf_int):
             for key1 in values_comb.keys():
                 if key != key1:
                     if np.all(values_comb[key] >= values_comb[key1]):
-                        lower_bound[key].append(key1)
-                    if np.all(values_comb[key] <= values_comb[key1]):
                         upper_bound[key].append(key1)
+                    if np.all(values_comb[key] <= values_comb[key1]):
+                        lower_bound[key].append(key1)
 
-        max_key_lower = max(lower_bound, key=lambda k: len(lower_bound[k]))
         max_key_upper = max(upper_bound, key=lambda k: len(upper_bound[k]))
+        max_key_lower = max(lower_bound, key=lambda k: len(lower_bound[k]))
 
-        return {'dist': dist_type, 'lower_loc': combinations[max_key_lower][0],
+        print("Upper bound: ", upper_bound)
+        print("Lower bound: ", lower_bound)
+
+        d = {'dist': dist_type, 'lower_loc': combinations[max_key_lower][0],
                 'lower_scale': combinations[max_key_lower][1],
                 'upper_loc': combinations[max_key_upper][0],
                 'upper_scale': combinations[max_key_upper][1]}
+
+        return d
 
     elif dist_type == 'beta':
         pass
@@ -111,8 +117,15 @@ if __name__ == '__main__':
     size_spec = len(pd_values['specificity'])
 
     """Calculation of mean, standard deviation from paper data for sensitivity and specificity."""
-    data_loc_sens, data_scale_sens = calculate_loc_scale(pd_values, 'sensitivity_no_outliers')
-    data_loc_spec, data_scale_spec = calculate_loc_scale(pd_values, 'specificity_no_outliers')
+    data_loc_sens, data_scale_sens, data_var_sens = calculate_loc_scale(pd_values, 'sensitivity_no_outliers')
+    data_loc_spec, data_scale_spec, data_var_spec = calculate_loc_scale(pd_values, 'specificity_no_outliers')
+
+    print(data_loc_spec, data_scale_spec, data_var_spec)
+    par = {'data_loc_spec': data_loc_spec, 'data_scale_spec': data_scale_spec, 'data_var_spec': data_var_spec}
+
+    print("Ueue: ", par)
+
+    write_binary_files('binary_files/p_boxes/p_boxes_parameters_spec.pk', par)
 
     """Get the data to use for the MC simple simulation"""
     single_mc = mc_simulation_data()

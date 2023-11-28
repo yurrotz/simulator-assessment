@@ -27,23 +27,15 @@ def levy_l_pba(dist_par):
 
 
 if __name__ == '__main__':
-    with open('../binary_files/dist_par/sens_dist_par.pk', 'rb') as f:
-        sens_dist_par = pk.load(f)
+    with open('../binary_files/p_boxes/p_boxes_interval_specificity_no_outliers.pk', 'rb') as f:
+        par = pk.load(f)
 
-    with open('../binary_files/dist_par/spec_dist_par.pk', 'rb') as f:
-        spec_dist_par = pk.load(f)
-
-    sens_box = beta_pba(sens_dist_par)
-    spec_box = beta_pba(spec_dist_par)
-
-    sens_box.get_interval()
-    for i in range(0, 10000):
-        print(sens_box.get_probability(np.random.uniform()))
-
-    """
-    sens_box.show()
+    spec_box = pba.min_max_mean_var(0, 1,
+                                    pba.I(par['conf_int_loc'][0], par['conf_int_loc'][1]),
+                                    pba.I(pow(par['conf_int_scale'][0], 2), pow(par['conf_int_scale'][1], 2)))
     spec_box.show()
 
+    """
     x = np.linspace(0, 2, 1000)
     plt.plot(x, beta.cdf(x, a=sens_dist_par['beta']['alpha'] - 0.05,
                          b=sens_dist_par['beta']['beta'] - 0.05,

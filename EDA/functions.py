@@ -17,6 +17,7 @@ def write_binary_files(path, file):
     """
     with open(path, 'wb') as f:
         pk.dump(file, f)
+
 def normalization(values):
     """
     :param values: values to normalize
@@ -49,10 +50,12 @@ def calculate_loc_scale(pd_values, column):
     :return: [x1, x2]: x1 is the loc and x2 is the scale of the data
     """
     values = pd_values[column].dropna()
-    loc = statistics.mean(values)
-    scale = statistics.stdev(values)
 
-    return [loc, scale]
+    loc = statistics.mean(values)
+    scale = statistics.pstdev(values)
+    var = statistics.pvariance(values)
+
+    return [loc, scale, var]
 
 def eliminate_outliers(values):
     """
@@ -400,5 +403,8 @@ def confid_interval(pd_values, column):
 
     confidence_interval_mean = np.percentile(bootstrap_sample_means, [2.5, 97.5])
     confidence_interval_std = np.percentile(bootstrap_sample_stds, [2.5, 97.5])
+
+    d = {'conf_int_loc': confidence_interval_mean, 'conf_int_scale': confidence_interval_std}
+    write_binary_files(f'binary_files/p_boxes/p_boxes_interval_{column}.pk', d)
 
     return {'conf_int_loc': confidence_interval_mean, 'conf_int_scale': confidence_interval_std}

@@ -51,11 +51,15 @@ def calculate_loc_scale(pd_values, column):
     """
     values = pd_values[column].dropna()
 
+    print(len(values))
+
     loc = statistics.mean(values)
     scale = statistics.pstdev(values)
     var = statistics.pvariance(values)
+    min_value = values.min()
+    max_value = values.max()
 
-    return [loc, scale, var]
+    return [loc, scale, var, min_value, max_value]
 
 def eliminate_outliers(values):
     """

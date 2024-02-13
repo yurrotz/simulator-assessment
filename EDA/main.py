@@ -117,15 +117,22 @@ if __name__ == '__main__':
     size_spec = len(pd_values['specificity'])
 
     """Calculation of mean, standard deviation from paper data for sensitivity and specificity."""
-    data_loc_sens, data_scale_sens, data_var_sens = calculate_loc_scale(pd_values, 'sensitivity_no_outliers')
-    data_loc_spec, data_scale_spec, data_var_spec = calculate_loc_scale(pd_values, 'specificity_no_outliers')
+    data_loc_sens, data_scale_sens, data_var_sens, data_min_sens, data_max_sens = (
+        calculate_loc_scale(pd_values, 'sensitivity_no_outliers'))
+    data_loc_spec, data_scale_spec, data_var_spec, data_min_spec, data_max_spec = (
+        calculate_loc_scale(pd_values, 'specificity_no_outliers'))
 
     print(data_loc_spec, data_scale_spec, data_var_spec)
-    par = {'data_loc_spec': data_loc_spec, 'data_scale_spec': data_scale_spec, 'data_var_spec': data_var_spec}
+    par_sens = {'data_loc_sens': data_loc_sens, 'data_scale_sens': data_scale_sens, 'data_var_sens': data_var_sens,
+                'data_min_sens': data_min_sens, 'data_max_sens': data_max_sens}
+    par_spec = {'data_loc_spec': data_loc_spec, 'data_scale_spec': data_scale_spec, 'data_var_spec': data_var_spec,
+                'data_min_spec': data_min_spec, 'data_max_spec': data_max_spec}
 
-    print("Ueue: ", par)
+    print("Ueue: ", par_sens)
+    print("Ueue: ", par_spec)
 
-    write_binary_files('binary_files/p_boxes/p_boxes_parameters_spec.pk', par)
+    write_binary_files('binary_files/p_boxes/p_boxes_parameters_sens.pk', par_sens)
+    write_binary_files('binary_files/p_boxes/p_boxes_parameters_spec.pk', par_spec)
 
     """Get the data to use for the MC simple simulation"""
     single_mc = mc_simulation_data()

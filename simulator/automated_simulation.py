@@ -1,5 +1,6 @@
 from scipy import stats
 import matplotlib.pyplot as plt
+import pickle as pk
 
 from functions import filtering, simulation
 from variables import specificity_values, fix_rate_values, break_rate_values, colors
@@ -69,19 +70,61 @@ def plot_data(simulation_type, plot_title, case, fix_rate_values, break_rate_val
     plot_roc(simulation_type, plot_title, case, fix_rate_values, break_rate_values, colors, file)
     plot_cdf(simulation_type, plot_title, case, fix_rate_values, break_rate_values, colors, file)
 
-def det_simulation(simulation_type, file, rounds):
-    simulation(simulation_type, file, rounds, specificity_values, fix_rate_values, break_rate_values)
+def det_simulation(simulation_type, file, rounds, prev_rate):
+
+    with open('../EDA/binary_files/p_boxes/p_boxes_parameters_sens.pk', 'rb') as f:
+        par_sens = pk.load(f)
+
+    with open('../EDA/binary_files/p_boxes/p_boxes_parameters_spec.pk', 'rb') as f:
+        par_spec = pk.load(f)
+
+    spec_val = [par_spec['data_loc_spec']]
+    sens_val = [par_sens['data_loc_sens']]
+
+    simulation(simulation_type, file, rounds, spec_val, sens_val, fix_rate_values, break_rate_values[0:1], prev_rate)
+
+def prevalence_rate(simulation_type, upper_file, lower_file, file):
+
+    if upper_file is None and lower_file is None:
+        for fix_rate in fix_rate_values:
+            for break_rate in break_rate_values[0:1]:
+                print(f"\nFix rate: {fix_rate}, Break rate: {break_rate}")
+                filtered_df = filtering(simulation_type, fix_rate, break_rate, file)
+
+                print(f"Prevalence rate min: {filtered_df['final_prevalence_rate'].min(axis=0)}")
+                print(f"Prevalence rate max: {filtered_df['final_prevalence_rate'].max(axis=0)}")
+
+def false_negative_rate(simulation_type, upper_file, lower_file, file):
+
+    if upper_file is None and lower_file is None:
+        for fix_rate in fix_rate_values:
+            for break_rate in break_rate_values[0:1]:
+                print(f"\nFix rate: {fix_rate}, Break rate: {break_rate}")
+                filtered_df = filtering(simulation_type, fix_rate, break_rate, file)
+
+                print(f"False negative rate min: {filtered_df['false_negative_rate'].min(axis=0)}")
+                print(f"False negative rate max: {filtered_df['false_negative_rate'].max(axis=0)}")
+
 
 def see_results_det(simulation_type, file):
 
+    """
     print("First deterministic case: Fix Rate = 1; Break Rate = 0")
     plot_data(simulation_type, "First deterministic case: Fix Rate = 1; Break Rate = 0", 1,
               fix_rate_values[-1:], break_rate_values[0:1], file)
+    """
 
+    prevalence_rate(simulation_type, None, None, file)
+    false_negative_rate(simulation_type, None, None, file)
+
+    """
     print("Second deterministic case: 0 <= Fix Rate < 1; Break Rate = 0")
     plot_data(simulation_type, "Second deterministic case: 0 <= Fix Rate < 1; Break Rate = 0", 2,
               fix_rate_values[0:-1], break_rate_values[0:1], file)
+    """
 
+    """
     print("Third deterministic Case: 0 <= Fix Rate < 1; 0 < Break Rate <= 1 (0.2, 0.3)")
     plot_data(simulation_type, "Third deterministic case: 0 <= Fix Rate < 1; 0 < Break Rate <= 1", 3,
               fix_rate_values[0:-1], break_rate_values[1:], file)
+    """

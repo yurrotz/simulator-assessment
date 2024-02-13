@@ -35,7 +35,7 @@ def connect_to_drive(file_ids, file_names):
 
         fh.seek(0)
 
-        with open(os.path.join('./excel', file_name), 'wb') as f:
+        with open(os.path.join('excel', file_name), 'wb') as f:
             f.write(fh.read())
             f.close()
 
@@ -94,5 +94,5 @@ if __name__ == "__main__":
     par_sens = {'data_min_sens': min(filtered_concatenated_list), 'data_max_sens': max(filtered_concatenated_list),
                 'data_loc_sens': np.mean(filtered_concatenated_list)}
 
-    with open('../EDA/binary_files/p_boxes/p_boxes_parameters_sens_1.pk', 'wb') as f:
+    with open('binary_files/p_boxes/p_boxes_parameters_sens_1.pk', 'wb') as f:
         pk.dump(par_sens, f)

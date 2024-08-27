@@ -12,7 +12,8 @@ def fixer(fix_rate, break_rate):
     p_infix, n_infix, pw_infix, nw_infix = 0, 0, 0, 0
     global p_outfix, n_outfix, pw_outfix, nw_outfix
     p_outfix, n_outfix, pw_outfix, nw_outfix = 0, 0, 0, 0
-    
+
+    num_magic, not_vulnerable, still_vulnerable, num_magic_special_case, num_magic_special_case_1, ignored = 0, 0, 0, 0, 0, 0
     for obj in first_analyzer.first_analyzer_array:
         random_fix = random.random() #fix
         random_break = random.random() #break
@@ -29,19 +30,25 @@ def fixer(fix_rate, break_rate):
         
         
         if class_ == 1:
+            num_magic += 1
             if random_fix <= fix_rate and random_break <= break_rate: #fixed & broken
+                num_magic_special_case += 1
                 fixer_array.append([id, 0, 0, "unknown", "yes", vuln, work, class_])
                 
             elif random_fix <= fix_rate and random_break > break_rate: #fixed & NOT broken
+                not_vulnerable += 1
                 fixer_array.append([id, 0, work, "unknown", "yes", vuln, work, class_])
                 
             elif random_fix > fix_rate and random_break > break_rate: #NOT fixed & NOT broken
+                still_vulnerable += 1
                 fixer_array.append([id, vuln, work, "unknown", "yes", vuln, work, class_])
                 
             elif random_fix > fix_rate and random_break <= break_rate: #NOT fixed & broken
+                num_magic_special_case_1 += 1
                 fixer_array.append([id, vuln, 0, "unknown", "yes", vuln, work, class_]) 
                 
         elif class_ == 0:
+            ignored += 1
             fixer_array.append([id, vuln, work, class_, "no", "unknown", "unknown", "unknown"])          
          
     json_obj_list = []
@@ -63,6 +70,5 @@ def fixer(fix_rate, break_rate):
                                             )))
         json.dump(json_obj_list, fixer_file, indent=4) 
         
-    return p_infix, n_infix, pw_infix, nw_infix, p_outfix, n_outfix, pw_outfix, nw_outfix
-        
-    
+    return (p_infix, n_infix, pw_infix, nw_infix, p_outfix, n_outfix, pw_outfix, nw_outfix, num_magic, not_vulnerable,
+            still_vulnerable, num_magic_special_case, num_magic_special_case_1, ignored)

@@ -5,7 +5,7 @@ from collections import OrderedDict
 # 0 NOT vulnerable/work | 1 vulnerable/work
 
 #1st Analyzer
-def first_analyzer(sensitivity, specificity):
+def first_analyzer(sensitivity, specificity, not_const, first_prev_rate):
     global ground_truth_array, first_analyzer_array
     ground_truth_array, first_analyzer_array = [], []
     global tot, p_init, n_init, pw_init, nw_init
@@ -24,7 +24,7 @@ def first_analyzer(sensitivity, specificity):
                 if obj["work"] == 1:
                     nw_init = nw_init + 1
             
-            ground_truth_array.append([obj["id"],obj["vuln"],obj["work"]])
+            ground_truth_array.append([obj["id"], obj["vuln"], obj["work"]])
 
     global tp1, fp1, tn1, fn1
     tp1, fp1, tn1, fn1 = 0, 0, 0, 0
@@ -49,14 +49,45 @@ def first_analyzer(sensitivity, specificity):
             else:
                 fp1 = fp1 + 1
                 first_analyzer_array.append([id, vuln, work, 1, "unknown", "unknown", "unknown", "unknown"]) #FP
-                         
+
     json_obj_list = []
-    with open('./first_analyzer/first_analyzer.json', 'w') as first_analyzer_file:
-        for obj in first_analyzer_array:
-            json_obj_list.append(OrderedDict((
-                                            ("id", obj[0]), ("vuln", obj[1]), ("work", obj[2]), ("class", obj[3]), 
-                                            ("fix", obj[4]), ("vuln_old", obj[5]), ("work_old", obj[6]), ("class_old", obj[7])
-                                            )))
-        json.dump(json_obj_list, first_analyzer_file, indent=4)
+    if not_const:
+        ppv_value = (sensitivity * first_prev_rate) / (
+                    (sensitivity * first_prev_rate) + (1 - specificity) * (1 - first_prev_rate))
+
+        npv_value = (specificity * (1 - first_prev_rate)) / ((
+                    specificity * (1 - first_prev_rate) + (1 - sensitivity) * first_prev_rate))
+
+        tp1, fp1, tn1, fn1 = 0, 0, 0, 0
+        with open('./first_analyzer/first_analyzer.json', 'w') as first_analyzer_file:
+            for obj in first_analyzer_array:
+                ppv = random.random()
+                npv = random.random()
+
+                if obj[3] == 1:
+                    if ppv <= ppv_value:
+                        tp1 += 1
+                    else:
+                        fp1 += 1
+                elif obj[3] == 0:
+                    if npv <= npv_value:
+                        tn1 += 1
+                    else:
+                        fn1 += 1
+
+                json_obj_list.append(OrderedDict((
+                    ("id", obj[0]), ("vuln", obj[1]), ("work", obj[2]), ("class", obj[3]),
+                    ("fix", obj[4]), ("vuln_old", obj[5]), ("work_old", obj[6]), ("class_old", obj[7]))))
+
+            json.dump(json_obj_list, first_analyzer_file, indent=4)
+
+    else:
+        with open('./first_analyzer/first_analyzer.json', 'w') as first_analyzer_file:
+            for obj in first_analyzer_array:
+                json_obj_list.append(OrderedDict((
+                                                ("id", obj[0]), ("vuln", obj[1]), ("work", obj[2]), ("class", obj[3]),
+                                                ("fix", obj[4]), ("vuln_old", obj[5]), ("work_old", obj[6]), ("class_old", obj[7])
+                                                )))
+            json.dump(json_obj_list, first_analyzer_file, indent=4)
         
     return tot, p_init, n_init, pw_init, nw_init, tp1, fp1, tn1, fn1

@@ -17,8 +17,14 @@ SCOPES = ['https://www.googleapis.com/auth/drive']
 
 service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
 
-file_ids = ['1t7VuJeYreATjtFCwR46DY6Q0A5TwHTm9']
-file_names = ['scopus.xlsx']
+# file_ids = ['1t7VuJeYreATjtFCwR46DY6Q0A5TwHTm9']
+# file_names = ['scopus.xlsx']
+
+# file_ids = ['1KUr3JNLGkY06ynXpuzJF12guddRz7DC0']
+# file_names = ['scopus_july_25.xlsx']
+
+file_ids = ['17rxW78BiLjtnRIiaGc7XHVAPZ0vHViEt']
+file_names = ['scopus_february_27.xlsx']
 
 def connect_to_drive(file_ids, file_names):
     for file_id, file_name in zip(file_ids, file_names):
@@ -54,13 +60,54 @@ def eliminate_outliers(data, threshold):
 
     return filtered_data
 
+def f(df, values):
+    # Not related
+    print(len(df[~df['Accepted'].str.contains('ok') & ~df['Accepted'].str.contains('recall', flags=re.IGNORECASE)][
+                  'Accepted']))
+
+    with_recall = df[(df[values].notna()) & (df[values] != '\n')]
+    with_ok = df[df['Accepted'].str.contains('ok')]
+    with_recall_without_ok = df[
+        (df[values].notna()) & (df[values] != '\n') & ~df['Accepted'].str.contains('ok')]
+
+    print(with_recall_without_ok)
+    print(len(with_recall), len(with_ok))
+    with_recall[values].to_csv('file.csv')
+
+    with_recall[values] = with_recall[values].str.replace(' {2,}', ' ', regex=True)
+    with_recall[values] = with_recall[values].str.split(' ').apply(
+        lambda x: x if isinstance(x, list) else [x])
+    with_recall[values] = with_recall[values].apply(lambda lst: [x for x in lst if x != ''])
+    with_recall[values] = with_recall[values].apply(lambda lst: [re.sub(',', '.', x) for x in lst])
+    with_recall[values] = with_recall[values].apply(lambda lst: [float(y) for y in lst])
+
+    concatenated_list = with_recall[values].explode().to_list()
+    concatenated_list_100 = [round(x / 100, 2) for x in concatenated_list]
+
+    print(len(concatenated_list_100), np.mean(concatenated_list_100), np.std(concatenated_list_100))
+    filtered_concatenated_list = eliminate_outliers(concatenated_list_100, 3)
+    print(len(filtered_concatenated_list), np.mean(filtered_concatenated_list), np.std(filtered_concatenated_list),
+          min(filtered_concatenated_list), max(filtered_concatenated_list))
+
+    sns.displot(filtered_concatenated_list, kde='True')
+    plt.show()
+
+    par_sens = {'data_min_sens': min(filtered_concatenated_list), 'data_max_sens': max(filtered_concatenated_list),
+                'data_loc_sens': np.mean(filtered_concatenated_list)}
+
+    with open('binary_files/p_boxes/p_boxes_parameters_sens_1.pk', 'wb') as f:
+        pk.dump(par_sens, f)
+
 if __name__ == "__main__":
     connect_to_drive(file_ids, file_names)
 
     pd.options.mode.copy_on_write = True
 
-    df = pd.read_excel('excel/scopus.xlsx')
+    df = pd.read_excel('excel/scopus_february_27.xlsx')
 
+    f(df, "Recall Values")
+
+    """
     # Not related
     print(len(df[~df['Accepted'].str.contains('ok') & ~df['Accepted'].str.contains('recall', flags=re.IGNORECASE)]['Accepted']))
 
@@ -71,7 +118,6 @@ if __name__ == "__main__":
     print(with_recall_without_ok)
     print(len(with_recall), len(with_ok))
     with_recall['Recall Values'].to_csv('file.csv')
-
 
     with_recall['Recall Values'] = with_recall['Recall Values'].str.replace(' {2,}', ' ', regex=True)
     with_recall['Recall Values'] = with_recall['Recall Values'].str.split(' ').apply(lambda x: x if isinstance(x, list) else [x])
@@ -96,3 +142,4 @@ if __name__ == "__main__":
 
     with open('binary_files/p_boxes/p_boxes_parameters_sens_1.pk', 'wb') as f:
         pk.dump(par_sens, f)
+    """

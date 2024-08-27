@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pickle as pk
 
 from functions import filtering, simulation
-from variables import specificity_values, fix_rate_values, break_rate_values, colors
+from variables import fix_rate_values, break_rate_values, colors
 
 
 def plot_roc(simulation_type, plot_title, case, fix_rate_values, break_rate_values, colors, file):

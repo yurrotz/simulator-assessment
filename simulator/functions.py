@@ -4,11 +4,12 @@ import second_analyzer.second_analyzer as second_analyzer
 
 import csv
 import pandas as pd
-from variables import r
 
 import random
 
 def filtering(simulation_type, fix_rate, break_rate, file):
+
+    print()
 
     pd_values = pd.read_csv(f'results/{simulation_type}/{file}')
     filtered_df = pd_values[(pd_values['fix_rate'] == fix_rate) & (pd_values['break_rate'] == break_rate)]
@@ -27,8 +28,6 @@ def exact_formulas(N, prev_rate, sensitivity, specificity, fix_rate):
     print(f"Fix rate: {fix_rate}, Break rate: 0\n"
           f"Sensitivity: {sensitivity}, Specificity: {specificity}\n")
 
-    # print("EXACT FORMULAS\n")
-
     x = N * prev_rate
     y = N * (1 - prev_rate)
 
@@ -40,19 +39,13 @@ def exact_formulas(N, prev_rate, sensitivity, specificity, fix_rate):
     TN_start = y * specificity
     FP_start = y * (1 - specificity)
 
-    #print(f"TP_start: {TP_start}, FN_start: {FN_start}, TN_start: {TN_start}, FP_start: {FP_start}")
-    #print(f"")
-
     TP_end = (1 - fix_rate) * TP_start * sensitivity
     FN_end = FN_start + (1 - fix_rate) * TP_start * (1 - sensitivity)
 
     TN_end = (fix_rate * TP_start + FP_start) * specificity + TN_start
     FP_end = (fix_rate * TP_start + FP_start) * (1 - specificity)
 
-    # print(f"TP_end: {TP_end}, FN_end: {FN_end}, TN_end: {TN_end}, FP_end: {FP_end}")
-
     return TP_start, FN_start, TN_start, FP_start, TP_end, FN_end, TN_end, FP_end
-
 
 def inverse_p_box_lower_a_b_loc(a, b, loc, p_list):
     x_list = []
@@ -87,6 +80,7 @@ def inverse_p_box_upper_a_b_loc(a, b, loc, p_list):
 
     return x_list
 
+
 def operation(n1, n2):
 
     if n1 == 0 and n2 == 0:
@@ -97,8 +91,8 @@ def operation(n1, n2):
     return round(abs((n1 - n2) / ((n1 + n2) / 2)) * 100, 0)
 
 
-def simulation(simulation_type, file, rounds, specificity_values, sensitivity_values, fix_rate_values,
-               break_rate_values, first_prev_rate):
+def simulation(simulation_type, file, rounds, specificity_values, sensitivity_values,
+               fix_rate_values, break_rate_values, not_const, first_prev_rate):
 
     header = False
     write_mode = 'w'
@@ -107,61 +101,48 @@ def simulation(simulation_type, file, rounds, specificity_values, sensitivity_va
     sensitivity_specificity_couples = list(zip(sensitivity_values, specificity_values))
 
     for round in range(rounds):
-        print("\nRound: " + str(round))
-
         for i, (sensitivity, specificity) in enumerate(sensitivity_specificity_couples):
             for fix_rate in fix_rate_values:
                 for break_rate in break_rate_values:
                     tot, p_init, n_init, pw_init, nw_init, tp1, fp1, tn1, fn1 = first_analyzer.first_analyzer(
-                        sensitivity, specificity)
+                        sensitivity, specificity, not_const, first_prev_rate)
 
-                    p_infix, n_infix, pw_infix, nw_infix, p_outfix, n_outfix, pw_outfix, nw_outfix = fixer.fixer(
-                        fix_rate, break_rate)
+                    (p_infix, n_infix, pw_infix, nw_infix, p_outfix, n_outfix, pw_outfix, nw_outfix, num_magic,
+                     not_vulnerable, still_vulnerable, num_magic_special_case, num_magic_special_case_1, ignored) = (
+                        fixer.fixer(fix_rate, break_rate))
 
-                    p_out, n_out, pw_out, nw_out, tp2, fp2, tn2, fn2 = second_analyzer.second_analyzer(
-                        sensitivity, specificity)
+                    p_out, n_out, pw_out, nw_out, tp2, fp2, tn2, fn2, through_fixer, vulnerable, not_vuln = (
+                        second_analyzer.second_analyzer(sensitivity, specificity, not_const, first_prev_rate))
 
                     tp_out = tp2
                     fp_out = fp2
                     tn_out = tn1 + tn2
                     fn_out = fn1 + fn2
 
-                    fn_1_rate = fn1 / (tp1 + fn1) if (tp1 + fn1) != 0 else "err"
-                    fn_out_rate = fn_out / (tp_out + fn_out) if (tp_out + fn_out) != 0 else "err"
-
-                    """
-                    TP_start, FN_start, TN_start, FP_start, TP_end, FN_end, TN_end, FP_end = (
-                        exact_formulas(1000, first_prev_rate, sensitivity, specificity, fix_rate))
-
-                    ## Calculate the highest difference
-                    couples = [(tp1, TP_start), (fn1, FN_start), (tn1, TN_start), (fp1, FP_start),
-                               (tp_out, TP_end), (fn_out, FN_end), (tn_out, TN_end), (fp_out, FP_end)]
-
-                    for couple in couples:
-                        op = operation(couple[0], couple[1])
-                        if highest < op:
-                            highest = op
-
-                    # Here we print the difference in terms of percentage between the exact value and the simulated
-                    # value
-
-                    print(f"\nSIMULATION VALUES"
-                          f"\nTP_start: {tp1, TP_start}, FN_start: {fn1, FN_start}, "
-                          f"TN_start: {tn1, TN_start}, FP_start: {fp1, FP_start}",
-                          f"\nTP_end: {tp_out, TP_end}, FN_end: {fn_out, FN_end}, "
-                          f"TN_end: {tn_out, TN_end}, FP_end: {fp_out, FP_end},\n")
-
-                    print(f"\nSIMULATION DIFFERENCE %"
-                          f"\nTP_start: {operation(tp1, TP_start)}, FN_start: {operation(fn1, FN_start)}, "
-                          f"TN_start: {operation(tn1, TN_start)}, FP_start: {operation(fp1, FP_start)}",
-                          f"\nTP_end: {operation(tp_out, TP_end)}, FN_end: {operation(fn_out, FN_end)}, "
-                          f"TN_end: {operation(tn_out, TN_end)}, FP_end: {operation(fp_out, FP_end)},\n\n")
-                    """
-
                     # Here we calculate the final accuracy, precision and sensitivity
                     accuracy_out = (tp_out + tn_out) / (tp_out + fp_out + tn_out + fn_out)
                     precision_out = tp_out / (tp_out + fp_out) if (tp_out + fp_out) != 0 else "err"
-                    sensitivity_out = tp_out / (tp_out + fn_out) if (tp_out + fn_out) != 0 else "err"
+                    sensitivity_out = tp1 / (tp1 + fn1) if (tp1 + fn1) != 0 else "err"
+                    specificity_out = tn1 / (tn1 + fp1) if (tn1 + fp1) != 0 else "err"
+
+                    if sensitivity_out != "err" and specificity_out != "err":
+                        ppv_value = (sensitivity_out * first_prev_rate) / ((sensitivity_out * first_prev_rate) + (1 - specificity_out) * (1 - first_prev_rate))
+                        npv_value = (specificity_out * (1 - first_prev_rate)) / (specificity_out * (1 - first_prev_rate) + (1 - sensitivity_out) * first_prev_rate)
+                    else:
+                        ppv_value, npv_value = 0, 0
+
+                    tp_out_adj = (tp_out + fp_out) * ppv_value
+                    fp_out_adj = (tp_out + fp_out) * (1 - ppv_value)
+
+                    tn_out_adj = (tn_out + fn_out) * npv_value
+                    fn_out_adj = (tn_out + fn_out) * (1 - npv_value)
+
+                    final_prev_rate_adj = (tp_out_adj + fn_out_adj) / (tp_out_adj + fn_out_adj + tn_out_adj + fp_out_adj)
+                    prev_rate_div_adj = final_prev_rate_adj / first_prev_rate
+                    real_fix_rate_adj = 1 - prev_rate_div_adj
+
+                    fn_1_rate = fn1 / (tp1 + fn1) if (tp1 + fn1) != 0 else "err"
+                    fn_out_rate = fn_out / (tp_out + fn_out) if (tp_out + fn_out) != 0 else "err"
 
                     # Here we calculate the division between the false negatives after the first analyzer
                     # and the false negatives after the second analyzer
@@ -187,11 +168,14 @@ def simulation(simulation_type, file, rounds, specificity_values, sensitivity_va
                                       "break_rate", "tot", "Pinit", "Ninit", "PWinit", "NWinit",
                                       "TP1", "FP1", "TN1", "FN1",
                                       "Pinfix", "Ninfix", "PWinfix", "NWinfix",
-                                      "Poutfix", "Noutfix", "PWoutfix", "NWoutfix",
-                                      "TP2", "FP2", "TN2", "FN2",
+                                      "Poutfix", "Noutfix", "PWoutfix", "NWoutfix", "num_magic", "not_vulnerable", "still_vulnerable", "num_magic_special", "num_magic_special_1", "ignored",
+                                      "TP2", "FP2", "TN2", "FN2", "through_fixer", "vulnerable", "not_vuln",
                                       "Pout", "Nout", "PWout", "NWout",
                                       "TPout", "FPout", "TNout", "FNout",
-                                      "Accuracy", "Precision", "Sensitivity"]
+                                      "ppv_value", "npv_value",
+                                      "TPoutadj", "FPoutadj", "TNoutadj", "FNoutadj",
+                                      "final_prev_rate_adj", "prev_rate_div_adj", "real_fix_rate_adj",
+                                      "Accuracy", "Precision", "Sensitivity", "Specificity"]
 
                             writer.writerow(header)
                             header = True
@@ -203,10 +187,13 @@ def simulation(simulation_type, file, rounds, specificity_values, sensitivity_va
                                 break_rate, tot, p_init, n_init, pw_init, nw_init,
                                 tp1, fp1, tn1, fn1,
                                 p_infix, n_infix, pw_infix, nw_infix,
-                                p_outfix, n_outfix, pw_outfix, nw_outfix,
-                                tp2, fp2, tn2, fn2,
+                                p_outfix, n_outfix, pw_outfix, nw_outfix, num_magic, not_vulnerable, still_vulnerable, num_magic_special_case, num_magic_special_case_1, ignored,
+                                tp2, fp2, tn2, fn2, through_fixer, vulnerable, not_vuln,
                                 p_out, n_out, pw_out, nw_out,
                                 tp_out, fp_out, tn_out, fn_out,
-                                accuracy_out, precision_out, sensitivity_out]
+                                ppv_value, npv_value,
+                                tp_out_adj, fp_out_adj, tn_out_adj, fn_out_adj,
+                                final_prev_rate_adj, prev_rate_div_adj, real_fix_rate_adj,
+                                accuracy_out, precision_out, sensitivity_out, specificity_out]
 
                         writer.writerow(data)
